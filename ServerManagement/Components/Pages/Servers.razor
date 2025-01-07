@@ -1,0 +1,44 @@
+﻿@page "/servers"
+
+@*What makes a component a routable component? The single most important thing is the page directive at the top.*@
+
+<h3>Servers</h3>
+<br />
+<br />
+
+<div class="container-fluid text-center">
+	<div class="row">
+		@foreach(var city in cities)
+		{
+			<div class="col">
+				<div class="card">
+					<img src="@($"/images/{city}.png")" class="card-img-top" alt="...">
+					<div class="card-body">
+						<button type="button" class="btn btn-primary">@city</button>
+					</div>
+				</div>
+			</div>
+		}
+	</div>
+</div>
+
+<br />
+<ul>
+	@foreach(var server in servers)
+	{
+		<li>
+			@server.Name in @server.City is 
+			<span style="color:@(server.IsOnline ? "green" : "red")">
+				@(server.IsOnline ? "online" : "offline")
+			</span>;
+			&nbsp;
+			<a href="/servers/@server.ServerId" class="btn btn-link">Edit</a>
+		</li>
+	}
+</ul>
+
+@code {
+	private List<Server> servers = ServersRepository.GetServersByCity("Toronto");
+
+	private List<String> cities = CitiesRepository.GetCities();
+}

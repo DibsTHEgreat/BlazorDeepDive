@@ -1,0 +1,21 @@
+﻿@page "/servers/{Id:int}"
+
+<h3>Edit Server</h3>
+<br />
+<br />
+
+<a href="/servers" class="btn btn-primary">Close</a>
+
+@code {
+	@*This is a root parameter*@
+	[Parameter]
+	public int Id { get; set; }
+
+	private Server? server;
+
+	@*LifeCycle that is triggered when the component receives the parameter value from the URL *@
+	protected override void OnParametersSet()
+	{
+		server = ServersRepository.GetServerById(this.Id);
+	}
+}
