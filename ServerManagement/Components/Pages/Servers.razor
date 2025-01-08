@@ -29,6 +29,14 @@
 
 <br />
 
+<div class="input-group mb-3">
+	<input type="text" class="form-control" placeholder="Search Servers" @onchange="HandleServerFilterChange"/>
+	<button class="btn btn-outline-secondary" type="button" id="button-search">Search</button>
+</div>
+@serverFilter
+
+<br />
+
 @*
 	This is called a interactive location, there are many locations as to where you can manually set the interactivity.
 	Generally speaking, there are 2 main locations for interactivity locations. 
@@ -70,6 +78,8 @@
 
 	private List<String> cities = CitiesRepository.GetCities();
 
+	private string serverFilter = "";
+
 	@* In order to change a state variable, first we must declare a state variable. *@
 	private string selectedCity = "Toronto";
 
@@ -87,6 +97,12 @@
 		this.selectedCity = cityName;
 
 		this.servers = ServersRepository.GetServersByCity(this.selectedCity);
+	}
+
+	@* Pay attention to how we used the handling for this function. Blazor actually passes parameters into the function. *@
+	private void HandleServerFilterChange(ChangeEventArgs args)
+	{
+		serverFilter = args.Value?.ToString() ?? string.Empty;
 	}
 
 }
