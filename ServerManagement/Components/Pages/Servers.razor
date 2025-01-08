@@ -1,7 +1,7 @@
 ﻿@page "/servers"
 
 @*Potential Location to specifiy render component.*@
-
+@rendermode InteractiveServer
 
 @inject NavigationManager NavigationManager
 
@@ -19,7 +19,7 @@
 				<div class="card">
 					<img src="@($"/images/{city}.png")" class="card-img-top" alt="...">
 					<div class="card-body">
-						<button type="button" class="btn btn-primary">@city</button>
+						<button type="button" class="btn btn-primary" @onclick="@(() => { SelectCity(city); })">@city</button>
 					</div>
 				</div>
 			</div>
@@ -70,6 +70,9 @@
 
 	private List<String> cities = CitiesRepository.GetCities();
 
+	@* In order to change a state variable, first we must declare a state variable. *@
+	private string selectedCity = "Toronto";
+
 	private void DeleteServer(int serverId)
 	{
 		if (serverId > 0)
@@ -78,5 +81,12 @@
 			NavigationManager.NavigateTo("/servers");
 		}
 	}
-	
+
+	private void SelectCity(string cityName)
+	{
+		this.selectedCity = cityName;
+
+		this.servers = ServersRepository.GetServersByCity(this.selectedCity);
+	}
+
 }
