@@ -1,5 +1,7 @@
 ﻿@page "/servers"
 
+@inject NavigationManager NavigationManager
+
 @*What makes a component a routable component? The single most important thing is the page directive at the top.*@
 
 <h3>Servers</h3>
@@ -33,12 +35,34 @@
 			</span>;
 			&nbsp;
 			<a href="/servers/@server.ServerId" class="btn btn-link">Edit</a>
+			&nbsp;
+
+			<EditForm
+			Model="server"
+			FormName="@($"form-server-{server.ServerId}")"
+			OnValidSubmit="@(() => { DeleteServer(server.ServerId); })">
+				<button type="submit" class="btn btn-primary">Delete</button>
+			</EditForm>
 		</li>
 	}
 </ul>
+
+<p>
+	<a href="/servers/add" class="btn btn-primary">Add Server</a>
+</p>
 
 @code {
 	private List<Server> servers = ServersRepository.GetServersByCity("Toronto");
 
 	private List<String> cities = CitiesRepository.GetCities();
+
+	private void DeleteServer(int serverId)
+	{
+		if (serverId > 0)
+		{
+			ServersRepository.DeleteServer(serverId);
+			NavigationManager.NavigateTo("/servers");
+		}
+	}
+
 }
