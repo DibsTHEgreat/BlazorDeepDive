@@ -1,5 +1,8 @@
 ﻿@page "/servers"
 
+@*Potential Location to specifiy render component.*@
+
+
 @inject NavigationManager NavigationManager
 
 @*What makes a component a routable component? The single most important thing is the page directive at the top.*@
@@ -25,9 +28,16 @@
 </div>
 
 <br />
-<p>
-	<ServerComponent></ServerComponent>
-</p>
+
+@*
+	This is called a interactive location, there are many locations as to where you can manually set the interactivity.
+	Generally speaking, there are 2 main locations for interactivity locations. 
+		1. Setting the rendermode on the component, or in its parent component or inside the component. Generally, all this 
+		three of these options fall under one category: Setting the rendermode either on/in a reusable component or on a page component.
+		2. The second type of location is at the global level.
+*@
+<ServerComponent @rendermode="InteractiveServer"></ServerComponent>
+
 
 <ul>
 	@foreach(var server in servers)

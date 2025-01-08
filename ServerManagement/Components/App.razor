@@ -13,6 +13,16 @@
 </head>
 
 <body>
+    @*
+        This is another type of location that can be used for interactivity.
+        If you specify it here, the entire application will use this type of a rendermode.
+        However, it is reccomended by Microsoft to specify rendermode location on the
+        component level.
+
+        It is also not reccomended to specify the rendermode on the ServerComponent.razor 
+        file itself, because you can specify another render type on there, which can result
+        in contradicting statements. 
+    *@
     <Routes />
     <script src="_framework/blazor.web.js"></script>
 </body>
