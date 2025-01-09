@@ -40,7 +40,10 @@
 	<button class="btn btn-outline-secondary" type="button" id="button-search" @onclick="HandleSearch">Search</button>
 </div>
 
-<ServerListComponent @rendermode="InteractiveServer"></ServerListComponent>
+<ServerListComponent 
+	@rendermode="InteractiveServer"
+	CityName="@this.selectedCity"
+	></ServerListComponent>
 
 <br />
 
@@ -58,16 +61,16 @@
 	<a href="/servers/add" class="btn btn-primary">Add Server</a>
 </p>
 
-<p>
+@* <p>
 	<button class="btn btn-secondary"
 	@onclick="@(() => 
 		{
-			// this.servers.Insert(0, new Server { Name = "ServerA", City = "Toronto"});
+			 this.servers.Insert(0, new Server { Name = "ServerA", City = "Toronto"});
 		})"
 	>
 		Add Server 2
 	</button>
-</p>
+</p> *@
 
 @code {
 
