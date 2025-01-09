@@ -10,22 +10,7 @@
 <h3>Servers</h3>
 <br />
 <br />
-
-<div class="container-fluid text-center">
-	<div class="row">
-		@foreach(var city in cities)
-		{
-			<div class="col">
-				<div class="card @(selectedCity.Equals(city, StringComparison.OrdinalIgnoreCase)?"border-primary":"")">
-					<img src="@($"/images/{city}.png")" class="card-img-top" alt="...">
-					<div class="card-body">
-						<button type="button" class="btn btn-primary" @onclick="@(() => { SelectCity(city); })">@city</button>
-					</div>
-				</div>
-			</div>
-		}
-	</div>
-</div>
+<CityListComponent SelectedCityCallback="HandleCitySelection"></CityListComponent>
 
 <br />
 @* 
@@ -41,11 +26,11 @@
 </div>
 
 <ServerListComponent 
-	@rendermode="InteractiveServer"
-	CityName="@this.selectedCity"
-	></ServerListComponent>
+@rendermode="InteractiveServer"
+CityName="@this.selectedCity"
+></ServerListComponent>
 
-<br />
+<br /> 
 
 @*
 	This is called a interactive location, there are many locations as to where you can manually set the interactivity.
@@ -74,7 +59,7 @@
 
 @code {
 
-	private List<String> cities = CitiesRepository.GetCities();
+	private string selectedCity = "Toronto";
 
 	private string _serverFilter = "";
 
@@ -83,17 +68,6 @@
 			_serverFilter = value;
 			// this.servers = ServersRepository.SearchServers(_serverFilter);
 		} 
-	}
-
-	@* In order to change a state variable, first we must declare a state variable. *@
-	private string selectedCity = "Toronto";
-
-	private void SelectCity(string cityName)
-	{
-		this.selectedCity = cityName;
-
-		// this.servers = ServersRepository.GetServersByCity(this.selectedCity);
-
 	}
 
 	@* Pay attention to how we used the handling for this function. Blazor actually passes parameters into the function. *@
@@ -106,7 +80,12 @@
 	{
 		// this.servers = ServersRepository.SearchServers(serverFilter);
 
-		this.selectedCity = string.Empty;
+		// this.selectedCity = string.Empty;
 	}
 
+
+	private void HandleCitySelection(string cityName)
+	{
+		selectedCity = cityName;
+	}
 }
