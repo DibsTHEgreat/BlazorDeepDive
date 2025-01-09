@@ -14,6 +14,11 @@
 	[Parameter]
 	public EventCallback<string> SearchServerCallBack { get; set; }
 
+	public void ClearFilter()
+	{
+		this.serverFilter = string.Empty;
+	}
+
 	private string _serverFilter = "";
 
 	private string serverFilter
@@ -34,5 +39,7 @@
 
 		// this.selectedCity = string.Empty;
 	}
+
+
 
 }
