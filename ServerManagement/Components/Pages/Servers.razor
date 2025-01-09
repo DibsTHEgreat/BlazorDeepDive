@@ -56,7 +56,7 @@
 <ul>
 	@foreach(var server in servers)
 	{
-		<li>
+		<li @key="server.ServerId">
 			@server.Name in @server.City is 
 			<span style="color:@(server.IsOnline ? "green" : "red")">
 				@(server.IsOnline ? "online" : "offline")
@@ -77,6 +77,17 @@
 
 <p>
 	<a href="/servers/add" class="btn btn-primary">Add Server</a>
+</p>
+
+<p>
+	<button class="btn btn-secondary"
+		@onclick="@(() => 
+		{
+			this.servers.Insert(0, new Server { Name = "ServerA", City = "Toronto"});
+		})"
+	>
+		Add Server 2
+	</button>
 </p>
 
 @code {
