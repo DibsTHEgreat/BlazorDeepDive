@@ -1,11 +1,13 @@
 ﻿@page "/servers/add"
 
+@rendermode InteractiveServer
+
 @inject NavigationManager NavigationManager
 
 <h3>Add Server</h3>
 <br />
 <br />
-
+@* If we specify InteractiveServer, EditForm does not have to have a FormName. *@
 <EditForm Model="server" FormName="formServer" OnValidSubmit="Submit">
 	<DataAnnotationsValidator></DataAnnotationsValidator>
 	<ValidationSummary></ValidationSummary>
@@ -52,6 +54,18 @@
 
 @code {
 	@* Binding Info from Form back to this property *@
+	@* 
+		If we specify that this webpage renders a specific way, forex: InteractiveServer, then there are changes. 
+		We do not need to specify SupplyParameterFromForm, for two reasons. The first reason is that when this
+		routable component is interactive, the EditForm component becomes Interactive as well. Therefore, when
+		the submit button is clicked, the form is no longer submitted back to the server with a HTTP POST. It
+		will simply send messages through the SignalR channel. And then the submit event handler will be triggered
+		automatically. Therefore, there is no form submission and you cannot say: SupplyParameterFromForm. Because
+		SupplyParameterFromForm implies that there is a form submission. Secondly, we now have two-way data-binding
+		within the EditForm, therefore, we no longer need SupplyParameterFromForm to recieve the submitted value 
+		anymore. Because automatically all the data input will be automatically reflected in the private Server
+		server state variable.
+	*@
 	[SupplyParameterFromForm]
 	private Server server { get; set; } = new Server() { IsOnline = false };
 
