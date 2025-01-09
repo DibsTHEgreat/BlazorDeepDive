@@ -28,7 +28,6 @@
 </div>
 
 <br />
-
 @* 
 	Pay close attention to how we bind the value in this input: bind-value has a lower-case v, whereas on
 	the EditForm, bind-Value has a captial V.
@@ -40,6 +39,8 @@
 	<input type="text" class="form-control" placeholder="Search Servers" @bind-value="serverFilter" @bind-value:event="oninput" />
 	<button class="btn btn-outline-secondary" type="button" id="button-search" @onclick="HandleSearch">Search</button>
 </div>
+
+<ServerListComponent @rendermode="InteractiveServer"></ServerListComponent>
 
 <br />
 
@@ -53,33 +54,6 @@
 @* <ServerComponent @rendermode="InteractiveServer"></ServerComponent> *@
 
 
-@*
-	There are typically some conditions when it comes to virtualization.
-	1. Using a foreach loop and you have too many items to render
-	2. The size (height) of each item is the same
-*@
-<ul>
-
-	<Virtualize Items="this.servers" Context="server">
-		<li @key="server.ServerId">
-			@server.Name in @server.City is
-			<span style="color:@(server.IsOnline ? "green" : "red")">
-				@(server.IsOnline ? "online" : "offline")
-			</span>;
-			&nbsp;
-			<a href="/servers/@server.ServerId" class="btn btn-link">Edit</a>
-			&nbsp;
-
-			<EditForm Model="server"
-					  FormName="@($"form-server-{server.ServerId}")"
-					  OnValidSubmit="@(() => { DeleteServer(server.ServerId); })">
-				<button type="submit" class="btn btn-primary">Delete</button>
-			</EditForm>
-		</li>
-	</Virtualize>
-		
-</ul>
-
 <p>
 	<a href="/servers/add" class="btn btn-primary">Add Server</a>
 </p>
@@ -88,7 +62,7 @@
 	<button class="btn btn-secondary"
 	@onclick="@(() => 
 		{
-			this.servers.Insert(0, new Server { Name = "ServerA", City = "Toronto"});
+			// this.servers.Insert(0, new Server { Name = "ServerA", City = "Toronto"});
 		})"
 	>
 		Add Server 2
@@ -96,7 +70,6 @@
 </p>
 
 @code {
-	private List<Server> servers = ServersRepository.GetServersByCity("Toronto");
 
 	private List<String> cities = CitiesRepository.GetCities();
 
@@ -105,27 +78,18 @@
 	private string serverFilter { get=>_serverFilter; 
 		set {
 			_serverFilter = value;
-			this.servers = ServersRepository.SearchServers(_serverFilter);
+			// this.servers = ServersRepository.SearchServers(_serverFilter);
 		} 
 	}
 
 	@* In order to change a state variable, first we must declare a state variable. *@
 	private string selectedCity = "Toronto";
 
-	private void DeleteServer(int serverId)
-	{
-		if (serverId > 0)
-		{
-			ServersRepository.DeleteServer(serverId);
-			NavigationManager.NavigateTo("/servers");
-		}
-	}
-
 	private void SelectCity(string cityName)
 	{
 		this.selectedCity = cityName;
 
-		this.servers = ServersRepository.GetServersByCity(this.selectedCity);
+		// this.servers = ServersRepository.GetServersByCity(this.selectedCity);
 
 	}
 
@@ -137,7 +101,7 @@
 
 	private void HandleSearch()
 	{
-		this.servers = ServersRepository.SearchServers(serverFilter);
+		// this.servers = ServersRepository.SearchServers(serverFilter);
 
 		this.selectedCity = string.Empty;
 	}
