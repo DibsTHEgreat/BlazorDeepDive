@@ -1,0 +1,38 @@
+﻿@* 
+	Pay close attention to how we bind the value in this input: bind-value has a lower-case v, whereas on
+	the EditForm, bind-Value has a captial V.
+	Blazor is using onChange events behind the scene to allow View-State to be binded.
+	@bind-value:event="oninput" allows the setter to be triggered for any input, allowing for results to change depending
+	on input as it is being typed out.
+*@
+<div class="input-group mb-3">
+	<input type="text" class="form-control" placeholder="Search Servers" @bind-value="serverFilter" @bind-value:event="oninput" />
+	<button class="btn btn-outline-secondary" type="button" id="button-search" @onclick="HandleSearch">Search</button>
+</div>
+
+@code {
+	[Parameter]
+	public EventCallback<string> SearchServerCallBack { get; set; }
+
+	private string _serverFilter = "";
+
+	private string serverFilter
+	{
+		get => _serverFilter;
+		set
+		{
+			_serverFilter = value;
+			// this.servers = ServersRepository.SearchServers(_serverFilter);
+		}
+	}
+
+	private void HandleSearch()
+	{
+		SearchServerCallBack.InvokeAsync(serverFilter);
+
+		// this.servers = ServersRepository.SearchServers(serverFilter);
+
+		// this.selectedCity = string.Empty;
+	}
+
+}
