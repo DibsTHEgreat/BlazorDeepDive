@@ -53,11 +53,16 @@
 @* <ServerComponent @rendermode="InteractiveServer"></ServerComponent> *@
 
 
+@*
+	There are typically some conditions when it comes to virtualization.
+	1. Using a foreach loop and you have too many items to render
+	2. The size (height) of each item is the same
+*@
 <ul>
-	@foreach(var server in servers)
-	{
+
+	<Virtualize Items="this.servers" Context="server">
 		<li @key="server.ServerId">
-			@server.Name in @server.City is 
+			@server.Name in @server.City is
 			<span style="color:@(server.IsOnline ? "green" : "red")">
 				@(server.IsOnline ? "online" : "offline")
 			</span>;
@@ -65,14 +70,14 @@
 			<a href="/servers/@server.ServerId" class="btn btn-link">Edit</a>
 			&nbsp;
 
-			<EditForm
-			Model="server"
-			FormName="@($"form-server-{server.ServerId}")"
-			OnValidSubmit="@(() => { DeleteServer(server.ServerId); })">
+			<EditForm Model="server"
+					  FormName="@($"form-server-{server.ServerId}")"
+					  OnValidSubmit="@(() => { DeleteServer(server.ServerId); })">
 				<button type="submit" class="btn btn-primary">Delete</button>
 			</EditForm>
 		</li>
-	}
+	</Virtualize>
+		
 </ul>
 
 <p>
@@ -81,7 +86,7 @@
 
 <p>
 	<button class="btn btn-secondary"
-		@onclick="@(() => 
+	@onclick="@(() => 
 		{
 			this.servers.Insert(0, new Server { Name = "ServerA", City = "Toronto"});
 		})"
@@ -121,6 +126,7 @@
 		this.selectedCity = cityName;
 
 		this.servers = ServersRepository.GetServersByCity(this.selectedCity);
+
 	}
 
 	@* Pay attention to how we used the handling for this function. Blazor actually passes parameters into the function. *@
