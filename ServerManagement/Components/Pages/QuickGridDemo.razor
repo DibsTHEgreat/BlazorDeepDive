@@ -10,15 +10,16 @@
 
 @if (servers != null)
 {
-	<QuickGrid Items="servers.AsQueryable()">
+	<QuickGrid Items="servers.AsQueryable()" Pagination="paginationState">
 		<PropertyColumn Property="s => s.Name">
 
 		</PropertyColumn>
-		<PropertyColumn Property="s => s.City">
+		<PropertyColumn Property="s => s.City" Sortable="true">
 
 		</PropertyColumn>
 		@* With template columns you provide the HTML and can still use basic attributes for this column.*@
-		<TemplateColumn Title="Status">
+		@*Blazor gives lots of options for sorting when it comes for template columns*@
+		<TemplateColumn Title="Status" Sortby="GridSort<Server>.ByAscending(s => s.IsOnline)">
 			@if(context.IsOnline)
 			{
 				<div style="color:green">
@@ -48,16 +49,16 @@
 			@if (context.IsOnline)
 			{
 				<button type="button"
-						class="btn btn-outline-danger"
-						@onclick="@(()=> { context.IsOnline = false;})">
+				class="btn btn-outline-danger"
+				@onclick="@(()=> { context.IsOnline = false;})">
 					Turn Off
 				</button>
 			}
 			else
 			{
 				<button type="button"
-						class="btn btn-outline-success"
-						@onclick="@(()=> { context.IsOnline = true;})">
+				class="btn btn-outline-success"
+				@onclick="@(()=> { context.IsOnline = true;})">
 					Turn On
 				</button>
 			}
@@ -68,17 +69,20 @@
 		<TemplateColumn>
 			<ChildContent Context="servers">
 				<EditForm Model="servers"
-						  FormName="@($"form-Server-{servers.ServerId}")"
-						  OnValidSubmit="@(() => { DeleteServer(servers.ServerId); })">
+				FormName="@($"form-Server-{servers.ServerId}")"
+				OnValidSubmit="@(() => { DeleteServer(servers.ServerId); })">
 					<button type="submit" class="btn btn-primary">Delete</button>
 				</EditForm>
 			</ChildContent>
 		</TemplateColumn>
 	</QuickGrid>
+	<Paginator State="paginationState"></Paginator>
 }
 
 @code {
 	private List<Server>? servers = ServersRepository.GetServres();
+
+	private PaginationState paginationState = new PaginationState { ItemsPerPage = 5 };
 
 	private void DeleteServer(int serverId)
 	{
