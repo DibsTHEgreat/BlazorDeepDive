@@ -1,5 +1,7 @@
 ﻿@inject NavigationManager NavigationManager
 
+@rendermode InteractiveServer
+
 @if (Server != null)
 {
     <tr style="background-color: @GetBackgroundColor()">
@@ -42,7 +44,7 @@
                 </button>
             }
             &nbsp;
-            <a href="/server/@Server.ServerId" class="btn btn-outline-primary">Edit</a>
+            <a href="/servers/@Server.ServerId" class="btn btn-outline-primary">Edit</a>
 
         </td>
         <td>
