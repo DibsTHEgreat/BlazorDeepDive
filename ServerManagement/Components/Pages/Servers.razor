@@ -20,12 +20,11 @@
 
 <br />
 
-<CascadingValue Name="SelectedCity" Value="@selectedCity">
-	<ServerListComponent @rendermode="InteractiveServer"
-						 CityName="@this.selectedCity"
-						 SearchFilter="@searchFilter">
-	</ServerListComponent>
-</CascadingValue>
+
+<ServerListComponent @rendermode="InteractiveServer"
+						CityName="@this.selectedCity"
+						SearchFilter="@searchFilter">
+</ServerListComponent>
 
 <br /> 
 
