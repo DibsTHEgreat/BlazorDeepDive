@@ -5,7 +5,7 @@
 	@bind-value:event="oninput" allows the setter to be triggered for any input, allowing for results to change depending
 	on input as it is being typed out.
 *@
-<div class="input-group mb-3">
+<div class="input-group mb-3 input-width">
 	<input type="text" class="form-control" placeholder="Search Servers" @bind-value="serverFilter" @bind-value:event="oninput" />
 	<button class="btn btn-outline-secondary" type="button" id="button-search" @onclick="HandleSearch">Search</button>
 </div>
