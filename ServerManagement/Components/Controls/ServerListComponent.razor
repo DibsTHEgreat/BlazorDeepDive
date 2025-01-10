@@ -15,13 +15,41 @@
 	}
 *@
 
-<ul class="list-unstyled">
+@* <ul class="list-unstyled">
 	<RepeaterComponent Items="this.servers">
 		<Row Context="server">
 			<ServerComponent Server="server"></ServerComponent>
 		</Row>
 	</RepeaterComponent>
-</ul>
+</ul> *@
+
+<table class="table table-striped">
+	<RepeaterComponent Items="this.servers">
+		<Header>
+			<thead>
+				<tr>
+					<th>
+						Name
+					</th>
+					<th>
+						City
+					</th>
+					<th>
+						Status
+					</th>
+					<th>
+						People Online
+					</th>
+					<th></th>
+					<th></th>
+				</tr>
+			</thead>
+		</Header>
+		<Row Context="server">
+			<ServerComponent Server="server"></ServerComponent>
+		</Row>
+	</RepeaterComponent>
+</table>
 
 @code {
 	[Parameter]
