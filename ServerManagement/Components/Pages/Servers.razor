@@ -13,15 +13,19 @@
 <CityListComponent @ref="cityListComponent" SelectedCityCallback="HandleCitySelection"></CityListComponent>
 
 <br />
-<SearchBarComponent @ref="searchBarComponent" SearchServerCallBack="HandleSearchServer"></SearchBarComponent>
+<SearchBarComponent 
+	@ref="searchBarComponent" 
+	SearchServerCallBack="HandleSearchServer"
+></SearchBarComponent>
 
 <br />
 
-<ServerListComponent 
-@rendermode="InteractiveServer"
-CityName="@this.selectedCity"
-SearchFilter="@searchFilter">
-</ServerListComponent>
+<CascadingValue Name="SelectedCity" Value="@selectedCity">
+	<ServerListComponent @rendermode="InteractiveServer"
+						 CityName="@this.selectedCity"
+						 SearchFilter="@searchFilter">
+	</ServerListComponent>
+</CascadingValue>
 
 <br /> 
 

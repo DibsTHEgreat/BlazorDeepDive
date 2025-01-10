@@ -2,7 +2,7 @@
 
 @if (Server != null)
 {
-	<li @key="Server.ServerId">
+	<li @key="Server.ServerId" style="background-color:@GetBackgroundColor()">
 		@Server.Name in @Server.City is
 		<span style="color:@(Server.IsOnline ? "green" : "red")">
 			@(Server.IsOnline ? "online" : "offline")
@@ -44,8 +44,8 @@
 		&nbsp;
 
 		<EditForm Model="Server"
-				  FormName="@($"form-server-{Server.ServerId}")"
-				  OnValidSubmit="@(() => { DeleteServer(Server.ServerId); })">
+		FormName="@($"form-server-{Server.ServerId}")"
+		OnValidSubmit="@(() => { DeleteServer(Server.ServerId); })">
 			<button type="submit" class="btn btn-primary">Delete</button>
 		</EditForm>
 	</li>
@@ -55,12 +55,36 @@
 	[Parameter]
 	public Server? Server { get; set; }
 
+	[CascadingParameter(Name="SelectedCity")]
+	public string? SelectedCity { get; set; }
+
 	private void DeleteServer(int serverId)
 	{
 		if (serverId > 0)
 		{
 			ServersRepository.DeleteServer(serverId);
 			NavigationManager.NavigateTo("/servers", true); 
+		}
+	}
+
+	private string GetBackgroundColor()
+	{
+		if (SelectedCity != null)
+		{
+			switch (this.SelectedCity)
+			{
+				case "Toronto": return "powderblue";
+				case "Montreal": return "lightgray";
+				case "Ottawa": return "palegreen";
+				case "Calgary": return "pink";
+				case "Halifax": return "yellow";
+				default:
+					return "white";
+			}
+		}
+		else
+		{
+			return "white";
 		}
 	}
 }
