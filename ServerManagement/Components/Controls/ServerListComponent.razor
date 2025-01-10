@@ -1,17 +1,27 @@
-﻿@if (this.servers != null && this.servers.Count > 0)
-{
-	@*
-		There are typically some conditions when it comes to virtualization.
-		1. Using a foreach loop and you have too many items to render
-		2. The size (height) of each item is the same
-	*@
+﻿@*
 
+	@if (this.servers != null && this.servers.Count > 0)
+	{
+		
+			There are typically some conditions when it comes to virtualization.
+			1. Using a foreach loop and you have too many items to render
+			2. The size (height) of each item is the same
+		
 	<ul class="list-unstyled">
 		<Virtualize Items="this.servers" Context="server">
 			<ServerComponent Server="server"></ServerComponent>
 		</Virtualize>
 	</ul>
-}
+	}
+*@
+
+<ul class="list-unstyled">
+	<RepeaterComponent Items="this.servers">
+		<Row Context="server">
+			<ServerComponent Server="server"></ServerComponent>
+		</Row>
+	</RepeaterComponent>
+</ul>
 
 @code {
 	[Parameter]
