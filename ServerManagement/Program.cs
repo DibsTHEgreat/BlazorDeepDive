@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ServerManagement.Components;
 using ServerManagement.Data;
+using ServerManagement.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,8 @@ builder.Services.AddDbContextFactory<ServerManagementContext>(options =>
 
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services.AddTransient<IServersEFCoreRepository, ServersEFCoreRepository>();
 
 builder.Services.AddCascadingValue("SelectedCity", sp => "Toronto");
 

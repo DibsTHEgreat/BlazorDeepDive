@@ -3,11 +3,11 @@ using ServerManagement.Data;
 
 namespace ServerManagement.Models
 {
-    public class ServersEFCoreRepository
+    public class ServersEFCoreRepository : IServersEFCoreRepository
     {
         private readonly IDbContextFactory<ServerManagementContext> contextFactory;
 
-        public ServersEFCoreRepository(IDbContextFactory<ServerManagementContext> contextFactory) 
+        public ServersEFCoreRepository(IDbContextFactory<ServerManagementContext> contextFactory)
         {
             this.contextFactory = contextFactory;
         }
@@ -60,7 +60,7 @@ namespace ServerManagement.Models
 
                 db.SaveChanges();
             }
-            
+
         }
 
         public void DeleteServer(int Id)
@@ -76,8 +76,8 @@ namespace ServerManagement.Models
         {
             using var db = this.contextFactory.CreateDbContext();
 
-            return db.Servers.Where(x => 
-                x.Name != null &&  
+            return db.Servers.Where(x =>
+                x.Name != null &&
                 x.Name.ToLower().IndexOf(serverFilter.ToLower()) > 0)
                 .ToList();
         }
