@@ -1,4 +1,5 @@
 ﻿@page "/servers"
+@page "/servers/back_from/{cityName}"
 
 @*Potential Location to specifiy render component.*@
 @rendermode InteractiveServer
@@ -10,21 +11,24 @@
 <h3>Servers</h3>
 <br />
 <br />
-<CityListComponent @ref="cityListComponent" SelectedCityCallback="HandleCitySelection"></CityListComponent>
+<CityListComponent @ref="cityListComponent" 
+	SelectedCityCallback="HandleCitySelection"
+	selectedCity="@this.selectedCity"
+></CityListComponent>
 
 <br />
 <SearchBarComponent 
-	@ref="searchBarComponent" 
-	SearchServerCallBack="HandleSearchServer"
-	style="width:1000px"
+@ref="searchBarComponent" 
+SearchServerCallBack="HandleSearchServer"
+style="width:1000px"
 ></SearchBarComponent>
 
 <br />
 
 
 <ServerListComponent @rendermode="InteractiveServer"
-						CityName="@this.selectedCity"
-						SearchFilter="@searchFilter">
+CityName="@this.selectedCity"
+SearchFilter="@searchFilter">
 </ServerListComponent>
 
 <br /> 
@@ -55,6 +59,10 @@
 </p> *@
 
 @code {
+
+	[Parameter]
+	public string? CityName { get; set; }
+
 	private CityListComponent? cityListComponent;
 	private SearchBarComponent? searchBarComponent;
 
@@ -81,4 +89,20 @@
 
 		cityListComponent?.ClearSelection();
 	}
+
+	protected override void OnAfterRender(bool firstRender)
+	{
+		base.OnAfterRender(firstRender);
+
+		if (firstRender)
+		{
+			if ((NavigationManager.Uri.Contains("back_from")) && !string.IsNullOrWhiteSpace(CityName)) 
+			{
+				selectedCity = CityName;
+
+				StateHasChanged();
+			}
+		}
+	}
+
 }
